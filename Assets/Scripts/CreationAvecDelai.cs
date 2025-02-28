@@ -6,19 +6,34 @@ public class CreationAvecDelai : MonoBehaviour
 {
     [SerializeField ] private GameObject _objetACreer;
     [SerializeField] private GameObject _objetPlacemenent;
+    private int _monnaies;
 
     void Start()
     {
+        _monnaies = 0;
         // Éxecute la méthode CreerObjet après un délai de 5s
-        Invoke("CreerObjet", 5f);
+        //Invoke("CreerObjet", 5f);
         // Éxecute la méthode CreerObjet après un délai initiale de 3s et à chaque 1s après
         InvokeRepeating("CreerObjet", 3f, 1f);
         // Cancelle tous les Invoke() actifs
-        CancelInvoke();
+        //CancelInvoke();
+    }
+
+    void OnClick()
+    {
+
     }
 
     void CreerObjet()
     {
+        if(_monnaies == 10)
+        {
+            CancelInvoke();
+            return;
+        }
+
+        _monnaies += 1;
+
         // Instancie un nouveau objet et garde une référence à lui
         GameObject nouvelleCopie = Instantiate(_objetACreer, _objetPlacemenent.transform.position, _objetPlacemenent.transform.rotation);
 
@@ -30,5 +45,6 @@ public class CreationAvecDelai : MonoBehaviour
 
         // Applique une force de rotation initiale aléatoire
         _rbNouvelleCopie.AddRelativeTorque(0f, Random.value, Random.value, ForceMode.Impulse);
+        
     }
 }
